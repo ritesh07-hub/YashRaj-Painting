@@ -25,12 +25,12 @@ const RS = (() => {
   };
 
   const DEF_PORTFOLIO = [
-    { id: _uid(), imageUrl: 'https://picsum.photos/600/400?random=11', title: 'Living Room Refresh',  description: 'Smooth even coats with clean edges and durable finish.' },
-    { id: _uid(), imageUrl: 'https://picsum.photos/600/500?random=22', title: 'Bedroom Interior',     description: 'Soft neutral tones for a calm, restful atmosphere.' },
-    { id: _uid(), imageUrl: 'https://picsum.photos/600/400?random=33', title: 'Exterior Facade',      description: 'Weather-ready exterior with neat wall lines.' },
-    { id: _uid(), imageUrl: 'https://picsum.photos/600/450?random=44', title: 'Commercial Space',     description: 'Professional work with minimal disruption.' },
-    { id: _uid(), imageUrl: 'https://picsum.photos/600/400?random=55', title: 'Texture Style',        description: 'Premium texture finish for a bold look.' },
-    { id: _uid(), imageUrl: 'https://picsum.photos/600/400?random=66', title: 'Waterproofing Job',    description: 'Reliable surface prep and waterproofing approach.' }
+    { id: _uid(), imageUrl: 'https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg', title: 'Living Room Refresh',  description: 'Smooth even coats with clean edges and durable finish.' },
+    { id: _uid(), imageUrl: 'https://images.pexels.com/photos/1571453/pexels-photo-1571453.jpeg', title: 'Bedroom Interior',     description: 'Soft neutral tones for a calm, restful atmosphere.' },
+    { id: _uid(), imageUrl: 'https://images.pexels.com/photos/12291711/pexels-photo-12291711.jpeg', title: 'Exterior Facade',      description: 'Weather-ready exterior with neat wall lines.' },
+    { id: _uid(), imageUrl: 'https://images.pexels.com/photos/5417293/pexels-photo-5417293.jpeg', title: 'Commercial Space',     description: 'Professional work with minimal disruption.' },
+    { id: _uid(), imageUrl: 'https://images.pexels.com/photos/2440471/pexels-photo-2440471.jpeg', title: 'Texture Style',        description: 'Premium texture finish for a bold look.' },
+    { id: _uid(), imageUrl: 'https://images.pexels.com/photos/4352247/pexels-photo-4352247.jpeg', title: 'Waterproofing Job',    description: 'Reliable surface prep and waterproofing approach.' }
   ];
 
   const DEF_INQ = [
