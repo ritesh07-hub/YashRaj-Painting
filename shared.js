@@ -37,7 +37,11 @@ const RS = (() => {
     { id: _uid(), name:'Sagar Kulkarni', phone:'+91-90111 22334', email:'sagar@ex.com', workType:'Interior',  location:'Karad, Maharashtra',   areaSqft:950,  message:'Need interior painting for 2BHK.', createdAt: new Date(Date.now()-1000*60*60*26).toISOString(), status:'Pending'  },
     { id: _uid(), name:'Meera Patil',    phone:'+91-90222 33445', email:'meera@ex.com', workType:'Exterior',  location:'Karad, Maharashtra', areaSqft:1200, message:'Exterior painting for bungalow.',  createdAt: new Date(Date.now()-1000*60*60*8).toISOString(),  status:'Reviewed' }
   ];
-
+  
+ function _uid() {
+    try { if (crypto.randomUUID) return crypto.randomUUID(); } catch(_) {}
+    return 'id_' + Math.random().toString(16).slice(2) + '_' + Date.now().toString(16);
+  }
  
 
   function load(k, fb) {
