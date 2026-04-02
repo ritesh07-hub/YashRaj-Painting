@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Yashraj Painting Contractors – Home</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+/* ── HERO ── */
+.hero{position:relative;min-height:580px;display:flex;align-items:center;overflow:hidden;background:var(--ink)}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(105deg,rgba(26,18,8,.97) 40%,rgba(26,18,8,.55) 100%),url('https://picsum.photos/1400/600?random=99') center/cover no-repeat}
+.hero-content{position:relative;z-index:1;padding:90px 28px;max-width:660px;margin-left:calc(max(0px,(100vw - 1280px)/2) + 28px)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(201,148,10,.13);border:1px solid rgba(201,148,10,.3);padding:7px 14px;border-radius:999px;font-size:11.5px;font-weight:700;color:var(--gold2);letter-spacing:.8px;text-transform:uppercase;margin-bottom:22px}
+.hero-eyebrow span{width:7px;height:7px;border-radius:50%;background:var(--gold2);display:block}
+.hero h2{font-family:'Playfair Display',serif;font-size:clamp(36px,5.2vw,68px);font-weight:900;line-height:1.03;color:#fff;letter-spacing:-1.5px;margin-bottom:18px}
+.hero h2 em{font-style:italic;color:var(--gold2)}
+.hero p.lead{color:rgba(255,255,255,.7);font-size:16px;font-weight:300;line-height:1.75;max-width:50ch;margin-bottom:32px}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+.hero-stats{position:absolute;right:0;bottom:0;display:flex;border-top:1px solid rgba(255,255,255,.1);border-left:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);backdrop-filter:blur(12px)}
+.hstat{padding:22px 30px;border-right:1px solid rgba(255,255,255,.1);text-align:center}
+.hstat:last-child{border-right:none}
+.hstat .n{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#fff;line-height:1;margin-bottom:4px}
+.hstat .l{font-size:11.5px;color:rgba(255,255,255,.5);letter-spacing:.5px}
+@media(max-width:768px){.hero-stats{position:static;flex-wrap:wrap;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;margin:0 28px 28px}}
+
+/* ── COLOUR STRIP ── */
+.colour-strip{background:var(--white);border-bottom:1px solid var(--border);padding:18px 0}
+.cs-inner{max-width:1280px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.cs-lbl{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink3);white-space:nowrap}
+.swatches{display:flex;gap:9px;flex-wrap:wrap}
+.sw{width:30px;height:30px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:transform .18s,border-color .18s,box-shadow .18s;box-shadow:0 2px 8px rgba(0,0,0,.13)}
+.sw:hover{transform:scale(1.2);box-shadow:0 4px 14px rgba(0,0,0,.22)}
+.sw.on{border-color:var(--ink);transform:scale(1.12)}
+.cs-more{font-size:13px;font-weight:500;color:var(--red);border:none;background:none;cursor:pointer;padding:6px 10px;border-radius:4px;white-space:nowrap;transition:background .18s}
+.cs-more:hover{background:var(--warm)}
+
+/* ── SERVICES ── */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px;margin-top:44px}
+.svc-card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:transform .22s,box-shadow .22s,border-color .22s}
+.svc-card:hover{transform:translateY(-5px);box-shadow:var(--shadow2);border-color:rgba(192,57,43,.2)}
+.svc-bar{height:4px}
+.svc-body{padding:22px 20px 24px}
+.svc-icon{width:46px;height:46px;background:var(--warm);border-radius:10px;display:grid;place-items:center;font-size:22px;margin-bottom:14px}
+.svc-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.svc-desc{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:16px}
+.svc-price{display:inline-flex;align-items:center;gap:6px;background:var(--warm);border:1px solid var(--warm2);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;color:var(--ink)}
+.svc-price small{font-size:11px;color:var(--ink3);font-weight:400}
+
+/* ── PORTFOLIO ── */
+.port-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:44px;border-radius:10px;overflow:hidden}
+@media(max-width:880px){.port-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.port-grid{grid-template-columns:1fr}}
+.port-item{position:relative;overflow:hidden;aspect-ratio:4/3}
+.port-item.tall{grid-row:span 2;aspect-ratio:auto}
+.port-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease)}
+.port-item:hover img{transform:scale(1.07)}
+.port-ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(26,18,8,.82));opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:20px}
+.port-item:hover .port-ov{opacity:1}
+.port-meta strong{display:block;color:#fff;font-family:'Playfair Display',serif;font-size:15px;font-weight:700}
+.port-meta span{font-size:12px;color:rgba(255,255,255,.7)}
+.port-see-all{display:flex;justify-content:center;margin-top:28px}
+
+/* ── STEPS ── */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:44px}
+@media(max-width:880px){.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.steps{grid-template-columns:1fr}}
+.step{padding:32px 24px;border-right:1px solid var(--border);transition:background .2s}
+.step:last-child{border-right:none}
+.step:hover{background:var(--warm)}
+.step-n{font-family:'Playfair Display',serif;font-size:54px;font-weight:900;color:var(--warm2);line-height:1;margin-bottom:14px}
+.step-title{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:8px}
+.step-desc{font-size:13px;color:var(--ink2);line-height:1.65}
+
+/* ── RATES TABLE ── */
+.rates-tbl{margin-top:44px;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.rates-tbl table{min-width:600px}
+.rate-badge{display:inline-block;background:var(--red);color:#fff;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.3px}
+
+/* ── TESTIMONIALS ── */
+.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
+@media(max-width:880px){.t-grid{grid-template-columns:1fr}}
+.t-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:28px 24px;position:relative;overflow:hidden;transition:box-shadow .2s,transform .2s}
+.t-card:hover{box-shadow:var(--shadow2);transform:translateY(-3px)}
+.t-card:before{content:'"';font-family:'Playfair Display',serif;font-size:110px;line-height:1;color:var(--warm2);position:absolute;top:-12px;left:14px;pointer-events:none}
+.t-stars{color:var(--gold);font-size:15px;letter-spacing:2px;margin-bottom:14px}
+.t-text{font-size:14px;color:var(--ink2);line-height:1.75;margin-bottom:20px;position:relative}
+.t-author{display:flex;align-items:center;gap:12px;border-top:1px solid var(--border);padding-top:16px}
+.t-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--gold));display:grid;place-items:center;color:#fff;font-size:14px;font-weight:700;flex-shrink:0}
+.t-name{font-size:14px;font-weight:600;color:var(--ink)}
+.t-loc{font-size:12px;color:var(--ink3)}
+
+/* ── CTA STRIP ── */
+.cta-strip{background:var(--ink);padding:60px 28px}
+.cta-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.cta-left h3{font-family:'Playfair Display',serif;font-size:clamp(22px,2.8vw,34px);font-weight:700;color:#fff;margin-bottom:8px}
+.cta-left p{color:rgba(255,255,255,.55);font-size:14px;max-width:48ch}
+.cta-right{display:flex;gap:14px;flex-wrap:wrap}
+
+/* ── CONTACT CARDS ── */
+.cc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
+@media(max-width:680px){.cc-grid{grid-template-columns:1fr}}
+.cc-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:28px 22px;display:flex;align-items:flex-start;gap:16px;transition:box-shadow .2s,transform .2s}
+.cc-card:hover{box-shadow:var(--shadow2);transform:translateY(-2px)}
+.cc-icon{width:48px;height:48px;border-radius:10px;background:var(--warm);display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.cc-lbl{font-size:11.5px;font-weight:600;letter-spacing:.5px;color:var(--ink3);text-transform:uppercase;margin-bottom:4px}
+.cc-val{font-size:15px;font-weight:600;color:var(--ink)}
+.cc-sub{font-size:13px;color:var(--ink2);margin-top:2px}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="hero" id="sec-home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow fade-up"><span></span>Karad's Trusted Painting Experts</div>
+    <h2 class="fade-up fade-up-d1">Colour Your World<br/>with <em>Expert Strokes</em></h2>
+    <p class="lead fade-up fade-up-d2">Professional interior, exterior &amp; commercial painting with clean prep, premium materials and transparent pricing. Request your free estimate today.</p>
+    <div class="hero-ctas fade-up fade-up-d3">
+      <a class="btn-red" href="quote.html" style="font-size:15px;padding:14px 28px">✦ Get a Free Quote</a>
+      <a class="btn-outline" href="portfolio.html" style="font-size:15px;padding:13px 28px">View Portfolio →</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="n">8+</div><div class="l">Years Experience</div></div>
+    <div class="hstat"><div class="n">500+</div><div class="l">Projects Done</div></div>
+    <div class="hstat"><div class="n">4.9★</div><div class="l">Client Rating</div></div>
+  </div>
+</div>
+
+<div class="colour-strip">
+  <div class="cs-inner">
+    <span class="cs-lbl">Popular Shades</span>
+    <div class="swatches" id="swatchRow"></div>
+    <button class="cs-more">Browse All Colours →</button>
+  </div>
+</div>
+
+<div class="section" id="sec-services">
+  <div class="container">
+    <div class="section-label">What We Do</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+      <div>
+        <div class="section-title">Our Painting Services</div>
+        <div class="section-sub">End-to-end painting solutions with surface prep, premium paints and clean finishing — backed by our quality promise.</div>
+      </div>
+      <a class="btn-red" href="quote.html" style="flex-shrink:0">Request Estimate</a>
+    </div>
+    <div class="svc-grid" id="servicesGrid"></div>
+  </div>
+</div>
+
+<div class="section alt" id="sec-work">
+  <div class="container">
+    <div class="section-label">Our Portfolio</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+      <div>
+        <div class="section-title">Fresh Transformations</div>
+        <div class="section-sub">Every project is a testament to clean workmanship, neat edges and finishes that stand the test of time.</div>
+      </div>
+      <a class="btn-ghost" href="portfolio.html" style="flex-shrink:0">View Full Gallery →</a>
+    </div>
+    <div class="port-grid" id="homePortfolioGrid"></div>
+    <div class="port-see-all">
+      <a class="btn-red" href="portfolio.html">See All Projects</a>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="section-label">Our Process</div>
+    <div class="section-title">How It Works</div>
+    <div class="section-sub">Simple, transparent and hassle-free — from your first call to the final coat.</div>
+    <div class="steps">
+      <div class="step"><div class="step-n">01</div><div class="step-title">Request a Quote</div><div class="step-desc">Share your area details and we respond with a rough estimate within hours.</div></div>
+      <div class="step"><div class="step-n">02</div><div class="step-title">Site Visit</div><div class="step-desc">We visit, assess the surface condition and confirm final pricing.</div></div>
+      <div class="step"><div class="step-n">03</div><div class="step-title">Colour &amp; Prep</div><div class="step-desc">Choose your shades; we prep surfaces — cleaning, filling and sanding.</div></div>
+      <div class="step"><div class="step-n">04</div><div class="step-title">Pristine Finish</div><div class="step-desc">Expert application, clean worksite, final walkthrough and your approval.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section alt" id="sec-rates">
+  <div class="container">
+    <div class="section-label">Transparent Pricing</div>
+    <div class="section-title">Starting Rates</div>
+    <div class="section-sub">Clear per sq ft pricing — no hidden charges. Final cost depends on surface condition and prep required.</div>
+    <div class="rates-tbl">
+      <table>
+        <thead><tr><th>Service</th><th>Starting Rate</th><th>What's Included</th><th>Ideal For</th></tr></thead>
+        <tbody id="ratesBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="section-label">Client Stories</div>
+    <div class="section-title">What Our Clients Say</div>
+    <div class="t-grid">
+      <div class="t-card"><div class="t-stars">★★★★★</div><div class="t-text">Super clean work — edges are razor sharp and the finish is flawless. They cleaned up everything after the job. Will definitely call again.</div><div class="t-author"><div class="t-av">R</div><div><div class="t-name">Rohan Sharma</div><div class="t-loc">Karad, Maharashtra</div></div></div></div>
+      <div class="t-card"><div class="t-stars">★★★★★</div><div class="t-text">Exterior looks brand new. Great communication throughout. They covered all furniture and left no mess. Best painters I've ever hired.</div><div class="t-author"><div class="t-av">N</div><div><div class="t-name">Neha Kulkarni</div><div class="t-loc">Karad, Maharashtra</div></div></div></div>
+      <div class="t-card"><div class="t-stars">★★★★★</div><div class="t-text">Commercial project done on time with zero disruption to our office. Premium finish on walls and ceilings. Highly professional team.</div><div class="t-author"><div class="t-av">A</div><div><div class="t-name">Arjun Patil</div><div class="t-loc">Karad, Maharashtra</div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-strip" id="sec-contact">
+  <div class="cta-inner">
+    <div class="cta-left">
+      <h3>Ready to Transform<br/>Your Space?</h3>
+      <p>Call us, email us or submit an inquiry. We respond within 24 hours on working days.</p>
+    </div>
+    <div class="cta-right">
+      <a id="ctaPhone" href="#" class="btn-gold">📞 Call Now</a>
+      <a href="quote.html" class="btn-outline">✍️ Get a Quote</a>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="section-title" style="margin-bottom:0">Reach Us Directly</div>
+    <div class="cc-grid" id="contactGrid">
+      </div>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="shared.js"></script>
+<script>
+RS.seed();
+RS.injectHeader('home');
+RS.injectFooter();
+
+// Update dynamic contact info
+document.getElementById('ctaPhone').href = 'tel:' + RS.CONTACT.phone.replace(/\s+/g,'');
+document.getElementById('ctaPhone').innerHTML = '📞 Call ' + RS.CONTACT.phone;
+
+const contactGrid = document.getElementById('contactGrid');
+contactGrid.innerHTML = `
+  <div class="cc-card"><div class="cc-icon">📞</div><div><div class="cc-lbl">Phone</div><div class="cc-val">${RS.CONTACT.phone}</div><div class="cc-sub">Mon–Sat, 9am–6pm</div></div></div>
+  <div class="cc-card"><div class="cc-icon">✉️</div><div><div class="cc-lbl">Email</div><div class="cc-val">${RS.CONTACT.email}</div><div class="cc-sub">Reply within 24 hours</div></div></div>
+  <div class="cc-card"><div class="cc-icon">📍</div><div><div class="cc-lbl">Location</div><div class="cc-val">${RS.CONTACT.location}</div><div class="cc-sub">Serving Karad and nearby</div></div></div>
+`;
+
+const SWATCHES=['#c0392b','#e74c3c','#e67e22','#f39c12','#f1c40f','#2ecc71','#27ae60','#1abc9c','#3498db','#2980b9','#9b59b6','#8e44ad','#1a1208','#7f8c8d','#bdc3c7','#fff'];
+const row=document.getElementById('swatchRow');
+SWATCHES.forEach((c,i)=>{
+  const d=document.createElement('div');
+  d.className='sw'+(i===0?' on':'');
+  d.style.background=c;
+  if(c==='#fff')d.style.border='2.5px solid #ddd';
+  d.title=c;
+  d.onclick=()=>{document.querySelectorAll('.sw').forEach(x=>x.classList.remove('on'));d.classList.add('on')};
+  row.appendChild(d);
+});
+
+const INFO={
+  'Interior':{icon:'🏠',desc:'Walls, ceilings, doors & trim with clean surface prep.',ideal:'Homes & Apartments',includes:'Surface prep, 2 coats + primer'},
+  'Exterior':{icon:'🏡',desc:'Weather-friendly finish with full surface preparation.',ideal:'Bungalows & Villas',includes:'Weatherproof coat + primer'},
+  'Commercial':{icon:'🏢',desc:'Durable coats for high-traffic commercial areas.',ideal:'Offices & Shops',includes:'Industrial grade, 3 coats'},
+  'Texture Finish':{icon:'🎨',desc:'Premium texture finish for bold feature walls.',ideal:'Feature Walls',includes:'Texture + base coat'},
+  'Waterproofing':{icon:'💧',desc:'Reliable surface prep and protective waterproofing.',ideal:'Bathrooms & Terraces',includes:'Sealant + protective coat'}
+};
+const BARS=['#c0392b','#e67e22','#3498db','#9b59b6','#27ae60'];
+const rates=RS.getRates();
+const grid=document.getElementById('servicesGrid');
+Object.keys(RS.DEF_RATES).forEach((name,i)=>{
+  const r=rates[name]??RS.DEF_RATES[name];
+  const d=INFO[name]||{icon:'🖌️',desc:'',ideal:'Any'};
+  const c=document.createElement('div');
+  c.className='svc-card';
+  c.innerHTML=`<div class="svc-bar" style="background:${BARS[i%BARS.length]}"></div>
+    <div class="svc-body">
+      <div class="svc-icon">${d.icon}</div>
+      <div class="svc-title">${RS.esc(name)}</div>
+      <div class="svc-desc">${RS.esc(d.desc)}</div>
+      <div class="svc-price">₹${RS.esc(String(r))}/sq ft <small>starting</small></div>
+    </div>`;
+  grid.appendChild(c);
+});
+
+const tbody=document.getElementById('ratesBody');
+Object.keys(RS.DEF_RATES).forEach(name=>{
+  const r=rates[name]??RS.DEF_RATES[name];
+  const d=INFO[name]||{};
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td style="font-weight:600;color:var(--ink)">${RS.esc(name)}</td>
+    <td style="font-weight:700;color:var(--ink);font-size:15px">₹${RS.esc(String(r))} <small style="font-size:12px;color:var(--ink3);font-weight:400">/sq ft</small></td>
+    <td style="color:var(--ink2)">${RS.esc(d.includes||'')}</td>
+    <td><span class="rate-badge">${RS.esc(d.ideal||'All')}</span></td>`;
+  tbody.appendChild(tr);
+});
+
+const photos=RS.getPortfolio().slice(0,6);
+const pg=document.getElementById('homePortfolioGrid');
+photos.forEach((p,i)=>{
+  const div=document.createElement('div');
+  div.className='port-item'+(i===0?' tall':'');
+  div.innerHTML=`<img src="${RS.esc(p.imageUrl)}" alt="${RS.esc(p.title)}" loading="lazy"/>
+    <div class="port-ov"><div class="port-meta"><strong>${RS.esc(p.title)}</strong><span>${RS.esc(p.description)}</span></div></div>`;
+  pg.appendChild(div);
+});
+</script>
+</body>
+</html>

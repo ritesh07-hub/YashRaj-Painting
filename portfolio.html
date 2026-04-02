@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Portfolio – RoyalStroke</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.port-hero{background:var(--ink);padding:72px 28px 60px;text-align:center}
+.port-hero .section-label{justify-content:center;display:flex;margin-bottom:10px}
+.port-hero .section-title{color:#fff;margin-bottom:12px}
+.port-hero .section-sub{color:rgba(255,255,255,.55);margin:0 auto}
+
+.port-filters{background:var(--white);border-bottom:1px solid var(--border);padding:16px 28px;position:sticky;top:66px;z-index:50}
+.pf-inner{max-width:1280px;margin:0 auto;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pf-btn{background:none;border:1.5px solid var(--border);padding:8px 16px;border-radius:999px;font-size:13px;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .18s;white-space:nowrap}
+.pf-btn:hover{border-color:var(--ink2);color:var(--ink)}
+.pf-btn.on{background:var(--red);border-color:var(--red);color:#fff}
+
+.masonry-grid{column-count:3;column-gap:16px;margin-top:44px}
+@media(max-width:900px){.masonry-grid{column-count:2}}
+@media(max-width:580px){.masonry-grid{column-count:1}}
+.m-item{break-inside:avoid;display:block;margin-bottom:16px;background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:transform .22s,box-shadow .22s,border-color .22s}
+.m-item:hover{transform:translateY(-4px);box-shadow:var(--shadow2);border-color:rgba(192,57,43,.2)}
+.m-item img{width:100%;height:auto;display:block}
+.m-body{padding:14px 14px 16px}
+.m-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.m-desc{font-size:13px;color:var(--ink2);line-height:1.5}
+
+.empty-state{text-align:center;padding:80px 28px;color:var(--ink3)}
+.empty-state p{font-size:15px;margin-top:8px}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="port-hero">
+  <div class="page-hero-label" style="justify-content:center"><span class="dot-pulse"></span>Our Work</div>
+  <div class="section-title fade-up">Portfolio Gallery</div>
+  <div class="section-sub fade-up fade-up-d1">Freshly painted spaces that showcase clean lines, even coats and durable finishes that last.</div>
+</div>
+
+<div class="port-filters">
+  <div class="pf-inner">
+    <span style="font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3);margin-right:4px">Filter:</span>
+    <button class="pf-btn on" data-filter="All">All Projects</button>
+    <button class="pf-btn" data-filter="Interior">Interior</button>
+    <button class="pf-btn" data-filter="Exterior">Exterior</button>
+    <button class="pf-btn" data-filter="Commercial">Commercial</button>
+    <button class="pf-btn" data-filter="Texture">Texture</button>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="masonry-grid" id="masonryGrid"></div>
+    <div class="empty-state" id="emptyState" style="display:none">
+      <div style="font-size:44px">🖌️</div>
+      <p>No portfolio items yet. Check back soon!</p>
+    </div>
+    <div style="text-align:center;margin-top:40px">
+      <a href="quote.html" class="btn-red" style="display:inline-flex;font-size:15px;padding:14px 32px;text-decoration:none">✦ Request Your Own Transformation</a>
+    </div>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="shared.js"></script>
+<script>
+RS.seed();
+RS.injectHeader('work');
+RS.injectFooter();
+
+function renderGallery() {
+  const grid = document.getElementById('masonryGrid');
+  const empty = document.getElementById('emptyState');
+  const photos = RS.getPortfolio();
+  grid.innerHTML = '';
+  if (!photos.length) { empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  photos.forEach(p => {
+    const a = document.createElement('a');
+    a.className = 'm-item';
+    a.href = '#';
+    a.onclick = e => e.preventDefault();
+    a.innerHTML = `<img src="${RS.esc(p.imageUrl)}" alt="${RS.esc(p.title)}" loading="lazy"/>
+      <div class="m-body">
+        <div class="m-title">${RS.esc(p.title)}</div>
+        <div class="m-desc">${RS.esc(p.description)}</div>
+      </div>`;
+    grid.appendChild(a);
+  });
+}
+renderGallery();
+
+// Filter buttons (visual-only for demo)
+document.querySelectorAll('.pf-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+  });
+});
+</script>
+</body>
+</html>

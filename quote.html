@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Get a Quote – Yashraj Painting</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.quote-page{max-width:1100px;margin:0 auto;padding:60px 28px;display:grid;grid-template-columns:1fr 380px;gap:44px;align-items:start}
+@media(max-width:880px){.quote-page{grid-template-columns:1fr}}
+.qp-sidebar{background:var(--ink);border-radius:14px;padding:34px 28px;position:sticky;top:90px}
+.qs-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:6px}
+.qs-sub{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:28px;line-height:1.6}
+.qs-item{display:flex;gap:14px;align-items:flex-start;margin-bottom:20px}
+.qs-ico{width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,.08);display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.qs-lbl{font-size:11.5px;color:rgba(255,255,255,.45);font-weight:500;margin-bottom:2px;letter-spacing:.3px}
+.qs-val{font-size:14px;font-weight:600;color:#fff}
+.qs-bullets{margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1)}
+.qs-bullets p{font-size:11.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:12px}
+.qs-bullets ul{list-style:none;display:grid;gap:8px}
+.qs-bullets li{font-size:13px;color:rgba(255,255,255,.68);line-height:1.5}
+.qs-bullets li:before{content:'✔';color:var(--gold2);margin-right:8px;font-size:12px}
+.form-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:36px 32px;box-shadow:var(--shadow)}
+.form-title{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.5px}
+.form-sub{font-size:14px;color:var(--ink2);margin-bottom:30px;line-height:1.6}
+.success-state{display:none;text-align:center;padding:40px 20px}
+.success-state .big-icon{font-size:56px;margin-bottom:18px}
+.success-state h3{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.success-state p{font-size:15px;color:var(--ink2);margin-bottom:28px;max-width:44ch;margin-left:auto;margin-right:auto}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="quote-page">
+  <div>
+    <div class="page-hero-label fade-up"><span class="dot-pulse"></span>Free Estimate</div>
+    <div id="formCard" class="form-card fade-up fade-up-d1">
+      <div class="form-title">Request a Quote</div>
+      <div class="form-sub">Fill in your details and we'll get back to you with a tailored estimate and convenient visit time.</div>
+      <div id="formNotice" class="notice"><div class="n-title"></div><div class="n-msg"></div></div>
+      <form id="quoteForm" class="fgroup">
+        <div class="frow">
+          <div><label class="flabel" for="q_name">Full Name *</label><input class="finput" id="q_name" type="text" required placeholder="Rohan Sharma"/></div>
+          <div><label class="flabel" for="q_phone">Phone *</label><input class="finput" id="q_phone" type="tel" required placeholder="+91-XXXXXXXXXX"/></div>
+        </div>
+        <div class="frow">
+          <div><label class="flabel" for="q_email">Email *</label><input class="finput" id="q_email" type="email" required placeholder="you@example.com"/></div>
+          <div>
+            <label class="flabel" for="q_wtype">Type of Work *</label>
+            <select class="fselect" id="q_wtype" required>
+              <option value="" disabled selected>Select type…</option>
+              <option>Interior</option><option>Exterior</option><option>Commercial</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div><label class="flabel" for="q_loc">Location / Address *</label><input class="finput" id="q_loc" type="text" required placeholder="Society name, area, city"/></div>
+        <div class="frow">
+          <div><label class="flabel" for="q_area">Area in sq ft (optional)</label><input class="finput" id="q_area" type="number" min="0" placeholder="e.g. 850"/></div>
+          <div><label class="flabel" for="q_time">Preferred Contact Time</label><input class="finput" id="q_time" type="text" placeholder="e.g. Evenings"/></div>
+        </div>
+        <div><label class="flabel" for="q_msg">Your Message *</label><textarea class="ftextarea" id="q_msg" required placeholder="Describe your walls, rooms, current paint condition, special requirements…" style="min-height:140px"></textarea></div>
+        <div style="display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:4px">
+          <a href="index.html" style="font-size:13.5px;color:var(--ink2)">← Back to Home</a>
+          <button type="submit" class="btn-red" style="padding:13px 32px;font-size:15px">Submit Inquiry ✦</button>
+        </div>
+      </form>
+      <div class="success-state" id="successState">
+        <div class="big-icon">🎉</div>
+        <h3>Inquiry Submitted!</h3>
+        <p>Thanks! We've received your request and will contact you shortly with an estimate.</p>
+        <a href="index.html" class="btn-red" style="display:inline-flex;text-decoration:none">← Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="qp-sidebar fade-up fade-up-d2">
+    <div class="qs-title">Quick Contact</div>
+    <div class="qs-sub">Prefer to reach us directly instead?</div>
+    <div class="qs-item"><div class="qs-ico">📞</div><div><div class="qs-lbl">Phone</div><div class="qs-val" id="qSidePhone"></div></div></div>
+    <div class="qs-item"><div class="qs-ico">✉️</div><div><div class="qs-lbl">Email</div><div class="qs-val" id="qSideEmail"></div></div></div>
+    <div class="qs-item"><div class="qs-ico">📍</div><div><div class="qs-lbl">Location</div><div class="qs-val" id="qSideLoc"></div></div></div>
+    <div class="qs-item"><div class="qs-ico">🕐</div><div><div class="qs-lbl">Working Hours</div><div class="qs-val">Mon–Sat, 9am–6pm</div></div></div>
+    <div class="qs-bullets">
+      <p>Why Yashraj Painting?</p>
+      <ul>
+        <li>Free site visit &amp; estimate</li>
+        <li>Transparent per sq ft pricing</li>
+        <li>Premium branded paints only</li>
+        <li>Clean worksite guarantee</li>
+        <li>On-time project completion</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="shared.js"></script>
+<script>
+RS.seed();
+RS.injectHeader('');
+RS.injectFooter();
+
+document.getElementById('qSidePhone').textContent = RS.CONTACT.phone;
+document.getElementById('qSideEmail').textContent = RS.CONTACT.email;
+document.getElementById('qSideLoc').textContent   = RS.CONTACT.location;
+
+document.getElementById('quoteForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const notice = document.getElementById('formNotice');
+  RS.hideNotice(notice);
+  const area = document.getElementById('q_area').value;
+  const a = area ? parseFloat(area) : null;
+  const payload = {
+    
+    id: RS.uid(),
+    name:     document.getElementById('q_name').value.trim(),
+    phone:    document.getElementById('q_phone').value.trim(),
+    email:    document.getElementById('q_email').value.trim(),
+    workType: document.getElementById('q_wtype').value.trim(),
+    location: document.getElementById('q_loc').value.trim(),
+    areaSqft: Number.isFinite(a) ? a : null,
+    preferredTime: document.getElementById('q_time').value.trim() || null,
+    message:  document.getElementById('q_msg').value.trim(),
+    createdAt: new Date().toISOString(),
+    status: 'Pending'
+  };
+  const v = RS.validateInq(payload);
+  if (!v.ok) { RS.showNotice(notice, 'error', 'Missing info', v.msg); return; }
+  RS.addInquiry(payload);
+  document.getElementById('quoteForm').style.display = 'none';
+  document.getElementById('successState').style.display = 'block';
+});
+</script>
+</body>
+</html>

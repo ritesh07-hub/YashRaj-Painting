@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>My Dashboard – RoyalStroke</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.dash-page{max-width:1100px;margin:0 auto;padding:40px 28px 70px}
+.dash-topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:32px}
+.dash-topbar h2{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--ink)}
+.dash-topbar p{font-size:14px;color:var(--ink2);margin-top:5px}
+
+.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
+@media(max-width:700px){.overview-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:450px){.overview-grid{grid-template-columns:1fr}}
+.ov-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:22px 18px;cursor:pointer;transition:box-shadow .2s,transform .2s,border-color .2s}
+.ov-card:hover{box-shadow:var(--shadow2);transform:translateY(-2px);border-color:rgba(192,57,43,.2)}
+.ov-icon{font-size:28px;margin-bottom:10px}
+.ov-label{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
+.ov-val{font-size:16px;font-weight:700;color:var(--ink)}
+
+.tab-content{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:28px}
+.port-grid-user{column-count:3;column-gap:14px}
+@media(max-width:800px){.port-grid-user{column-count:2}}
+@media(max-width:520px){.port-grid-user{column-count:1}}
+.pu-item{break-inside:avoid;margin-bottom:14px;border-radius:9px;overflow:hidden;border:1px solid var(--border);transition:transform .2s,box-shadow .2s}
+.pu-item:hover{transform:translateY(-3px);box-shadow:var(--shadow2)}
+.pu-item img{width:100%;height:auto;display:block}
+.pu-body{padding:12px 12px 14px;background:var(--white)}
+.pu-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.pu-desc{font-size:12.5px;color:var(--ink2);line-height:1.5}
+
+.contact-list{display:grid;gap:14px;max-width:500px}
+.cl-item{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;background:var(--off);border:1px solid var(--border);border-radius:9px}
+.cl-ico{width:42px;height:42px;border-radius:8px;background:var(--warm);display:grid;place-items:center;font-size:20px;flex-shrink:0}
+.cl-lbl{font-size:11.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
+.cl-val{font-size:14px;font-weight:600;color:var(--ink)}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="dash-page">
+  <div class="dash-topbar">
+    <div>
+      <div class="page-hero-label" style="margin-bottom:10px"><span class="dot-pulse"></span>User Portal</div>
+      <h2 id="welcomeMsg">Welcome!</h2>
+      <p>View portfolio, submit inquiries and track your requests this session.</p>
+    </div>
+    <button class="btn-ghost" onclick="RS.logout()">🚪 Logout</button>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="overview">🏠 Overview</button>
+    <button class="tab-btn" data-tab="portfolio">🖼 Portfolio</button>
+    <button class="tab-btn" data-tab="submit">✍️ Submit Inquiry</button>
+    <button class="tab-btn" data-tab="myinq">📋 My Inquiries</button>
+    <button class="tab-btn" data-tab="contact">📞 Contact</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="tab-content" id="tab-overview">
+    <div class="overview-grid">
+      <div class="ov-card" onclick="switchTab('portfolio')">
+        <div class="ov-icon">🖼️</div>
+        <div class="ov-label">Portfolio</div>
+        <div class="ov-val">View Gallery →</div>
+      </div>
+      <div class="ov-card" onclick="switchTab('submit')">
+        <div class="ov-icon">✍️</div>
+        <div class="ov-label">New Inquiry</div>
+        <div class="ov-val">Submit Request →</div>
+      </div>
+      <div class="ov-card" onclick="switchTab('myinq')">
+        <div class="ov-icon">📋</div>
+        <div class="ov-label">My Inquiries</div>
+        <div class="ov-val" id="myInqCount">0 submitted</div>
+      </div>
+    </div>
+    <div style="background:var(--warm);border:1px solid var(--warm2);border-radius:9px;padding:16px 18px;font-size:13.5px;color:var(--ink2);line-height:1.7;max-width:560px">
+      💡 <strong>Tip:</strong> Include your area in sq ft when submitting an inquiry — it helps us give you a faster and more accurate estimate.
+    </div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <div class="tab-content" id="tab-portfolio" style="display:none">
+    <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:20px">Portfolio Gallery</div>
+    <div class="port-grid-user" id="userPortGrid"></div>
+    <div style="text-align:center;margin-top:24px">
+      <a href="portfolio.html" class="btn-red" style="display:inline-flex;text-decoration:none">View Full Gallery →</a>
+    </div>
+  </div>
+
+  <!-- SUBMIT INQUIRY -->
+  <div class="tab-content" id="tab-submit" style="display:none;max-width:700px">
+    <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:5px">Submit Inquiry</div>
+    <div style="font-size:13px;color:var(--ink2);margin-bottom:22px">Your request will be marked Pending and tracked below.</div>
+    <div id="userInqNotice" class="notice"><div class="n-title"></div><div class="n-msg"></div></div>
+    <form id="userInqForm" class="fgroup">
+      <div class="frow">
+        <div><label class="flabel" for="ui_name">Full Name *</label><input class="finput" id="ui_name" type="text" required placeholder="Your name"/></div>
+        <div><label class="flabel" for="ui_phone">Phone *</label><input class="finput" id="ui_phone" type="tel" required placeholder="+91-XXXXXXXXXX"/></div>
+      </div>
+      <div class="frow">
+        <div><label class="flabel" for="ui_email">Email *</label><input class="finput" id="ui_email" type="email" required placeholder="you@example.com"/></div>
+        <div>
+          <label class="flabel" for="ui_wtype">Type of Work *</label>
+          <select class="fselect" id="ui_wtype" required><option value="" disabled selected>Select…</option><option>Interior</option><option>Exterior</option><option>Commercial</option><option>Other</option></select>
+        </div>
+      </div>
+      <div><label class="flabel" for="ui_loc">Location *</label><input class="finput" id="ui_loc" type="text" required placeholder="Society, area, city"/></div>
+      <div class="frow">
+        <div><label class="flabel" for="ui_area">Area in sq ft</label><input class="finput" id="ui_area" type="number" min="0" placeholder="e.g. 850"/></div>
+        <div><label class="flabel" for="ui_time">Preferred Time</label><input class="finput" id="ui_time" type="text" placeholder="Evenings, weekdays…"/></div>
+      </div>
+      <div><label class="flabel" for="ui_msg">Message *</label><textarea class="ftextarea" id="ui_msg" required placeholder="Describe your painting needs…"></textarea></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end">
+        <button type="reset" class="btn-ghost">Clear</button>
+        <button type="submit" class="btn-red" style="padding:12px 28px">Submit ✦</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- MY INQUIRIES -->
+  <div class="tab-content" id="tab-myinq" style="display:none">
+    <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:20px">My Inquiries <span style="font-size:13px;font-weight:400;color:var(--ink3)">(this session)</span></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Phone</th><th>Work Type</th><th>Location</th><th>Date</th><th>Status</th></tr></thead>
+        <tbody id="myInqBody"></tbody>
+      </table>
+    </div>
+    <div id="myInqEmpty" style="font-size:14px;color:var(--ink3);margin-top:16px;display:none">No inquiries submitted this session yet. Go to "Submit Inquiry" to create one.</div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="tab-content" id="tab-contact" style="display:none">
+    <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:20px">Contact Us</div>
+    <div class="contact-list">
+      <div class="cl-item"><div class="cl-ico">📞</div><div><div class="cl-lbl">Phone</div><div class="cl-val">+91-90000 00000</div></div></div>
+      <div class="cl-item"><div class="cl-ico">✉️</div><div><div class="cl-lbl">Email</div><div class="cl-val">info@royalstroke.in</div></div></div>
+      <div class="cl-item"><div class="cl-ico">📍</div><div><div class="cl-lbl">Location</div><div class="cl-val">Pune, Maharashtra</div></div></div>
+      <div class="cl-item"><div class="cl-ico">🕐</div><div><div class="cl-lbl">Working Hours</div><div class="cl-val">Mon–Sat, 9am–6pm</div></div></div>
+    </div>
+    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+      <a href="tel:+919000000000" class="btn-gold" style="text-decoration:none">📞 Call Now</a>
+      <a href="mailto:info@royalstroke.in" class="btn-red" style="text-decoration:none;display:inline-flex;align-items:center;gap:7px;padding:12px 20px">✉️ Send Email</a>
+    </div>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="shared.js"></script>
+<script>
+RS.seed();
+RS.injectHeader('');
+RS.injectFooter();
+if (!RS.requireUser()) { /* redirect handled */ }
+
+const s = RS.getSession();
+if (s) document.getElementById('welcomeMsg').textContent = 'Welcome, ' + s.username + '!';
+
+function switchTab(name) {
+  document.querySelectorAll('#tabBar .tab-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-tab') === name);
+  });
+  const tabs = ['overview','portfolio','submit','myinq','contact'];
+  tabs.forEach(t => {
+    document.getElementById('tab-'+t).style.display = t===name ? '' : 'none';
+  });
+  if (name==='portfolio') renderPortfolio();
+  if (name==='myinq') renderMyInq();
+}
+
+document.querySelectorAll('#tabBar .tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchTab(btn.getAttribute('data-tab')));
+});
+
+// Overview counts
+function updateOverview() {
+  const ids = RS.getMyIds();
+  document.getElementById('myInqCount').textContent = ids.length + ' submitted';
+}
+updateOverview();
+
+// Portfolio
+function renderPortfolio() {
+  const grid = document.getElementById('userPortGrid');
+  const photos = RS.getPortfolio();
+  grid.innerHTML = '';
+  photos.forEach(p => {
+    const d = document.createElement('div');
+    d.className = 'pu-item';
+    d.innerHTML = `<img src="${RS.esc(p.imageUrl)}" alt="${RS.esc(p.title)}" loading="lazy"/>
+      <div class="pu-body">
+        <div class="pu-title">${RS.esc(p.title)}</div>
+        <div class="pu-desc">${RS.esc(p.description)}</div>
+      </div>`;
+    grid.appendChild(d);
+  });
+}
+
+// My Inquiries
+function renderMyInq() {
+  const tbody = document.getElementById('myInqBody');
+  const empty = document.getElementById('myInqEmpty');
+  const ids   = RS.getMyIds();
+  const all   = RS.getInquiries();
+  const items = ids.map(id=>all.find(x=>x.id===id)).filter(Boolean).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  tbody.innerHTML = '';
+  if (!items.length) { empty.style.display='block'; return; }
+  empty.style.display = 'none';
+  items.forEach(q => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td style="font-weight:600;color:var(--ink)">${RS.esc(q.name||'')}</td>
+      <td>${RS.esc(q.phone||'')}</td>
+      <td>${RS.esc(q.workType||'')}</td>
+      <td>${RS.esc(q.location||'')}</td>
+      <td style="white-space:nowrap">${RS.esc(RS.fmtDate(q.createdAt))}</td>
+      <td><span class="pill ${RS.statusClass(q.status)}">${RS.esc(q.status||'Pending')}</span></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// Submit Inquiry
+document.getElementById('userInqForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const notice = document.getElementById('userInqNotice');
+  RS.hideNotice(notice);
+  const area = document.getElementById('ui_area').value;
+  const a = area ? parseFloat(area) : null;
+  const payload = {
+    id: RS.uid(),
+    name:     document.getElementById('ui_name').value.trim(),
+    phone:    document.getElementById('ui_phone').value.trim(),
+    email:    document.getElementById('ui_email').value.trim(),
+    workType: document.getElementById('ui_wtype').value.trim(),
+    location: document.getElementById('ui_loc').value.trim(),
+    areaSqft: Number.isFinite(a) ? a : null,
+    preferredTime: document.getElementById('ui_time').value.trim() || null,
+    message:  document.getElementById('ui_msg').value.trim(),
+    createdAt: new Date().toISOString(),
+    status: 'Pending'
+  };
+  const v = RS.validateInq(payload);
+  if (!v.ok) { RS.showNotice(notice,'error','Missing info',v.msg); return; }
+  RS.addInquiry(payload);
+  RS.pushMyId(payload.id);
+  RS.showNotice(notice,'success','Submitted!','Your inquiry is saved as Pending. Check "My Inquiries" to track it.');
+  e.target.reset();
+  updateOverview();
+});
+</script>
+</body>
+</html>

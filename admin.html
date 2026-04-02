@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Admin Dashboard – RoyalStroke</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.dash-page{max-width:1280px;margin:0 auto;padding:40px 28px 70px}
+.dash-topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:32px}
+.dash-topbar h2{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--ink);line-height:1.1}
+.dash-topbar p{font-size:14px;color:var(--ink2);margin-top:5px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+@media(max-width:900px){.stats-row{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.stats-row{grid-template-columns:1fr}}
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:20px;transition:box-shadow .2s}
+.stat-card:hover{box-shadow:var(--shadow2)}
+.stat-card .sk{font-size:11.5px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.stat-card .sv{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--ink);line-height:1}
+.stat-card .sd{font-size:12.5px;color:var(--ink2);margin-top:4px}
+.tab-content{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:28px}
+
+/* Portfolio manager */
+.pm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.pm-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.pm-grid{grid-template-columns:1fr}}
+.pm-card{background:var(--off);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.pm-card img{width:100%;height:150px;object-fit:cover;display:block}
+.pm-body{padding:13px}
+.pm-body strong{display:block;font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.pm-body p{font-size:12.5px;color:var(--ink2);line-height:1.5;margin-bottom:11px;min-height:36px}
+.pm-actions{display:flex;gap:7px}
+.add-photo-form{background:var(--off);border:1px solid var(--border);border-radius:10px;padding:22px;margin-top:24px}
+.add-form-title{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:16px}
+
+/* Rate form */
+.rate-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:620px){.rate-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="dash-page">
+  <div class="dash-topbar">
+    <div>
+      <div class="page-hero-label" style="margin-bottom:10px"><span class="dot-pulse"></span>Admin Panel</div>
+      <h2>Admin Dashboard</h2>
+      <p>Manage portfolio, inquiries and pricing. Data persists in localStorage.</p>
+    </div>
+    <button class="btn-ghost" onclick="RS.logout()">↩ Logout</button>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="sk">Total Inquiries</div><div class="sv" id="statTotal">0</div><div class="sd">All time</div></div>
+    <div class="stat-card"><div class="sk">Pending</div><div class="sv" id="statPending" style="color:var(--ink2)">0</div><div class="sd">Need follow-up</div></div>
+    <div class="stat-card"><div class="sk">Portfolio Items</div><div class="sv" id="statPhotos">0</div><div class="sd">Published photos</div></div>
+    <div class="stat-card"><div class="sk">Services Listed</div><div class="sv">5</div><div class="sd">With active pricing</div></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="portfolio">🖼 Portfolio Manager</button>
+    <button class="tab-btn" data-tab="inquiries">📥 Inquiry Inbox</button>
+    <button class="tab-btn" data-tab="rates">💰 Rate Manager</button>
+  </div>
+
+  <!-- PORTFOLIO TAB -->
+  <div class="tab-content" id="tab-portfolio">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+      <div style="font-size:16px;font-weight:600;color:var(--ink)">Portfolio Photos</div>
+      <div style="font-size:13px;color:var(--ink3)" id="photoCount"></div>
+    </div>
+    <div class="pm-grid" id="pmGrid"></div>
+    <div class="add-photo-form">
+      <div class="add-form-title">+ Add New Photo</div>
+      <form id="addPhotoForm" class="fgroup">
+        <div class="frow">
+          <div><label class="flabel" for="ap_url">Image URL</label><input class="finput" id="ap_url" type="url" required placeholder="https://picsum.photos/600/400?random=77"/></div>
+          <div><label class="flabel" for="ap_title">Title</label><input class="finput" id="ap_title" type="text" required placeholder="Living Room Refresh"/></div>
+        </div>
+        <div><label class="flabel" for="ap_desc">Description</label><textarea class="ftextarea" id="ap_desc" required style="min-height:80px" placeholder="Describe the finish, technique and surface…"></textarea></div>
+        <div style="display:flex;justify-content:flex-end;gap:10px">
+          <button type="reset" class="btn-ghost">Clear</button>
+          <button type="submit" class="btn-red">+ Add Photo</button>
+        </div>
+      </form>
+      <div id="addPhotoNotice" class="notice" style="margin-top:12px"><div class="n-title"></div><div class="n-msg"></div></div>
+    </div>
+  </div>
+
+  <!-- INQUIRIES TAB -->
+  <div class="tab-content" id="tab-inquiries" style="display:none">
+    <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:20px">Inquiry Inbox</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Phone</th><th>Work Type</th><th>Location</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="inqBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RATES TAB -->
+  <div class="tab-content" id="tab-rates" style="display:none">
+    <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:6px">Service Rates</div>
+    <div style="font-size:13px;color:var(--ink2);margin-bottom:22px">Edit starting rates per sq ft. Changes reflect on the homepage and quote page.</div>
+    <form id="rateForm" class="fgroup">
+      <div class="rate-grid" id="rateFields"></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:8px">
+        <button type="button" class="btn-ghost" id="resetRatesBtn">Reset to Defaults</button>
+        <button type="submit" class="btn-red">💾 Save Rates</button>
+      </div>
+    </form>
+    <div id="rateNotice" class="notice" style="margin-top:14px"><div class="n-title"></div><div class="n-msg"></div></div>
+  </div>
+</div>
+
+<!-- EDIT PHOTO MODAL -->
+<div id="editModal" class="modal-bd">
+  <div class="modal">
+    <div class="modal-head">
+      <span>Edit Photo</span>
+      <button class="modal-close" id="modalClose">Close ✕</button>
+    </div>
+    <div class="modal-body fgroup">
+      <div><label class="flabel" for="m_title">Title</label><input class="finput" id="m_title" type="text"/></div>
+      <div><label class="flabel" for="m_desc">Description</label><textarea class="ftextarea" id="m_desc" style="min-height:90px"></textarea></div>
+      <p style="font-size:12px;color:var(--ink3)">Image URL cannot be changed here — delete and re-add if needed.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="act-btn danger" id="modalDelete">Delete Photo</button>
+      <button class="act-btn" id="modalSave" style="background:var(--red);color:#fff;border-color:var(--red)">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="shared.js"></script>
+<script>
+RS.seed();
+RS.injectHeader('');
+RS.injectFooter();
+if (!RS.requireAdmin()) { /* redirect handled */ }
+
+function updateStats() {
+  const inqs = RS.getInquiries();
+  document.getElementById('statTotal').textContent = inqs.length;
+  document.getElementById('statPending').textContent = inqs.filter(x=>x.status==='Pending').length;
+  document.getElementById('statPhotos').textContent = RS.getPortfolio().length;
+}
+
+// ── TABS ──
+document.querySelectorAll('#tabBar .tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#tabBar .tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const t = btn.getAttribute('data-tab');
+    ['portfolio','inquiries','rates'].forEach(n => {
+      document.getElementById('tab-'+n).style.display = n===t ? '' : 'none';
+    });
+    if (t==='portfolio') renderPhotos();
+    if (t==='inquiries') renderInquiries();
+    if (t==='rates')     renderRateFields();
+  });
+});
+
+// ── PORTFOLIO ──
+function renderPhotos() {
+  const grid = document.getElementById('pmGrid');
+  const photos = RS.getPortfolio();
+  document.getElementById('photoCount').textContent = photos.length + ' items';
+  grid.innerHTML = '';
+  if (!photos.length) { grid.innerHTML='<p style="color:var(--ink3);font-size:14px">No photos yet. Add one below.</p>'; return; }
+  photos.forEach(p => {
+    const c = document.createElement('div');
+    c.className = 'pm-card';
+    c.innerHTML = `<img src="${RS.esc(p.imageUrl)}" alt="${RS.esc(p.title)}"/>
+      <div class="pm-body">
+        <strong>${RS.esc(p.title)}</strong>
+        <p>${RS.esc(p.description)}</p>
+        <div class="pm-actions">
+          <button class="act-btn" data-edit="${RS.esc(p.id)}">✏️ Edit</button>
+          <button class="act-btn danger" data-del="${RS.esc(p.id)}">🗑 Delete</button>
+        </div>
+      </div>`;
+    grid.appendChild(c);
+  });
+  grid.onclick = e => {
+    const edit = e.target.getAttribute && e.target.getAttribute('data-edit');
+    const del  = e.target.getAttribute && e.target.getAttribute('data-del');
+    if (edit) openModal(edit);
+    else if (del && confirm('Delete this photo?')) deletePhoto(del);
+  };
+}
+
+function deletePhoto(id) {
+  RS.setPortfolio(RS.getPortfolio().filter(p=>p.id!==id));
+  renderPhotos(); updateStats();
+}
+
+document.getElementById('addPhotoForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const n = document.getElementById('addPhotoNotice');
+  RS.hideNotice(n);
+  const url   = document.getElementById('ap_url').value.trim();
+  const title = document.getElementById('ap_title').value.trim();
+  const desc  = document.getElementById('ap_desc').value.trim();
+  if (!url||!title||!desc) { RS.showNotice(n,'error','Missing fields','Please fill all fields.'); return; }
+  const photos = RS.getPortfolio();
+  photos.unshift({ id:RS.uid(), imageUrl:url, title, description:desc });
+  RS.setPortfolio(photos);
+  e.target.reset();
+  RS.showNotice(n,'success','Photo added!','The new portfolio item is now visible on the website.');
+  renderPhotos(); updateStats();
+});
+
+// ── MODAL ──
+let editingId = null;
+function openModal(id) {
+  const p = RS.getPortfolio().find(x=>x.id===id);
+  if (!p) return;
+  editingId = id;
+  document.getElementById('m_title').value = p.title || '';
+  document.getElementById('m_desc').value  = p.description || '';
+  document.getElementById('editModal').classList.add('open');
+}
+function closeModal() { editingId=null; document.getElementById('editModal').classList.remove('open'); }
+document.getElementById('modalClose').onclick = closeModal;
+document.getElementById('editModal').onclick  = e => { if(e.target.id==='editModal') closeModal(); };
+document.addEventListener('keydown', e => { if(e.key==='Escape'&&editingId) closeModal(); });
+document.getElementById('modalSave').onclick = () => {
+  if (!editingId) return;
+  const photos = RS.getPortfolio();
+  const idx = photos.findIndex(p=>p.id===editingId);
+  if (idx===-1) return;
+  photos[idx].title       = document.getElementById('m_title').value.trim();
+  photos[idx].description = document.getElementById('m_desc').value.trim();
+  RS.setPortfolio(photos);
+  closeModal(); renderPhotos();
+};
+document.getElementById('modalDelete').onclick = () => {
+  if (!editingId || !confirm('Delete this photo?')) return;
+  deletePhoto(editingId); closeModal();
+};
+
+// ── INQUIRIES ──
+function renderInquiries() {
+  const tbody = document.getElementById('inqBody');
+  const inqs  = RS.getInquiries().slice().sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  tbody.innerHTML = '';
+  if (!inqs.length) { tbody.innerHTML='<tr><td colspan="7" style="color:var(--ink3)">No inquiries yet.</td></tr>'; return; }
+  inqs.forEach(q => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td style="font-weight:600;color:var(--ink)">${RS.esc(q.name||'')}</td>
+      <td>${RS.esc(q.phone||'')}</td>
+      <td>${RS.esc(q.workType||'')}</td>
+      <td>${RS.esc(q.location||'')}</td>
+      <td style="white-space:nowrap">${RS.esc(RS.fmtDate(q.createdAt))}</td>
+      <td><span class="pill ${RS.statusClass(q.status)}">${RS.esc(q.status||'Pending')}</span></td>
+      <td>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="act-btn" data-mark="${RS.esc(q.id)}" data-st="Reviewed">Reviewed</button>
+          <button class="act-btn" data-mark="${RS.esc(q.id)}" data-st="Contacted">Contacted</button>
+          <button class="act-btn danger" data-delinq="${RS.esc(q.id)}">Delete</button>
+        </div>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+  tbody.onclick = e => {
+    const mark    = e.target.getAttribute && e.target.getAttribute('data-mark');
+    const st      = e.target.getAttribute && e.target.getAttribute('data-st');
+    const delinq  = e.target.getAttribute && e.target.getAttribute('data-delinq');
+    if (delinq && confirm('Delete this inquiry?')) {
+      RS.setInquiries(RS.getInquiries().filter(x=>x.id!==delinq));
+      renderInquiries(); updateStats();
+    } else if (mark && st) {
+      const a = RS.getInquiries();
+      const idx = a.findIndex(x=>x.id===mark);
+      if (idx!==-1) { a[idx].status=st; RS.setInquiries(a); renderInquiries(); updateStats(); }
+    }
+  };
+}
+
+// ── RATES ──
+function renderRateFields() {
+  const c = document.getElementById('rateFields');
+  const rates = RS.getRates();
+  c.innerHTML = '';
+  Object.keys(RS.DEF_RATES).forEach(name => {
+    const rid = 'rf_' + name.replace(/\s+/g,'_');
+    const div = document.createElement('div');
+    div.innerHTML = `<label class="flabel" for="${RS.esc(rid)}">${RS.esc(name)} (₹/sq ft)</label>
+      <input class="finput" id="${RS.esc(rid)}" type="number" min="0" step="0.01" value="${RS.esc(rates[name]??RS.DEF_RATES[name])}" required/>`;
+    c.appendChild(div);
+  });
+}
+document.getElementById('rateForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const n = document.getElementById('rateNotice');
+  const rates = { ...RS.getRates() };
+  Object.keys(RS.DEF_RATES).forEach(name => {
+    const el = document.getElementById('rf_'+name.replace(/\s+/g,'_'));
+    if (!el) return;
+    const v = parseFloat(el.value);
+    rates[name] = Number.isFinite(v) ? v : RS.DEF_RATES[name];
+  });
+  RS.setRates(rates);
+  RS.showNotice(n, 'success', 'Rates saved!', 'New rates are now active on the homepage.');
+});
+document.getElementById('resetRatesBtn').addEventListener('click', () => {
+  if (!confirm('Reset all rates to defaults?')) return;
+  RS.setRates({...RS.DEF_RATES});
+  renderRateFields();
+  RS.showNotice(document.getElementById('rateNotice'), 'success', 'Rates reset', 'All rates restored to default values.');
+});
+
+// Init
+updateStats();
+renderPhotos();
+</script>
+</body>
+</html>
